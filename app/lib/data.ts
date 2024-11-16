@@ -4,6 +4,7 @@ import {
 	CustomersTableType,
 	InvoiceForm,
 	InvoicesTable,
+	LatestInvoice,
 	LatestInvoiceRaw,
 	Revenue,
 } from "./definitions";
@@ -18,7 +19,7 @@ export async function fetchRevenue() {
 		// console.log('Fetching revenue data...');
 		// await new Promise((resolve) => setTimeout(resolve, 3000));
 
-		const data = await sql`SELECT * FROM revenue`;
+		const data = await sql`SELECT * FROM revenue` as Revenue[];
 
 		// console.log('Data fetch completed after 3 seconds.');
 
@@ -42,7 +43,7 @@ export async function fetchLatestInvoices() {
 		const latestInvoices = data.map((invoice) => ({
 			...invoice,
 			amount: formatCurrency(invoice.amount),
-		}));
+		})) as LatestInvoice[]; 
 		return latestInvoices;
 	} catch (error) {
 		console.error("Database Error:", error);
