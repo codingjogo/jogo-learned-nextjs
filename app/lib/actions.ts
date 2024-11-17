@@ -63,3 +63,13 @@ export async function updateInvoice(id: string, formData: FormData) {
     revalidatePath('/dashboard/invoices');
     redirect('/dashboard/invoices');
   }
+
+  export async function deleteInvoice(id: string) {
+    const sql = neon(process.env.DATABASE_URL!);
+
+    await sql`
+    DELETE FROM invoices
+    WHERE id = ${id}
+    `
+    revalidatePath('/dashboard/invoices');
+  }
